@@ -45,7 +45,12 @@ sp-transaction-pool = { version = "4.0.0-dev", default-features = false, git = "
 sp-version = { version = "5.0.0", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
 
 #INFO: pallets added by me
+# Nicks
 pallet-nicks = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
+# Contracts
+pallet-contracts = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
+pallet-contracts-primitives = { version = "6.0.0", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
+pallet-contracts-rpc-runtime-api = { version = "4.0.0-dev", default-features = false, git = "https://github.com/paritytech/substrate.git", branch = "polkadot-v0.9.28" }
 ##
 
 # Used for the node template's RPCs
@@ -73,7 +78,12 @@ std = [
 	"frame-system-rpc-runtime-api/std",
 	"frame-system/std",
 	#INFO: pallets added by me
+	#Nicks
 	"pallet-nicks/std",
+	#Contracts
+	"pallet-contracts/std",
+	"pallet-contracts-primitives/std",
+	"pallet-contracts-rpc-runtime-api/std",
 	##
 	"pallet-aura/std",
 	"pallet-balances/std",

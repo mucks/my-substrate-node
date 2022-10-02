@@ -8,11 +8,14 @@
 use std::sync::Arc;
 
 use jsonrpsee::RpcModule;
-use node_template_runtime::{opaque::Block, AccountId, Balance, Index};
+use node_template_runtime::{opaque::Block, AccountId, Balance, BlockNumber, Hash, Index};
 use sc_transaction_pool_api::TransactionPool;
 use sp_api::ProvideRuntimeApi;
 use sp_block_builder::BlockBuilder;
 use sp_blockchain::{Error as BlockChainError, HeaderBackend, HeaderMetadata};
+//INFO: Contracts
+use pallet_contracts_rpc::{Contracts, ContractsApiServer};
+//
 
 pub use sc_rpc_api::DenyUnsafe;
 
@@ -36,6 +39,9 @@ where
 	C: Send + Sync + 'static,
 	C::Api: substrate_frame_rpc_system::AccountNonceApi<Block, AccountId, Index>,
 	C::Api: pallet_transaction_payment_rpc::TransactionPaymentRuntimeApi<Block, Balance>,
+	//INFO: Contracts
+	C::Api: pallet_contracts_rpc::ContractsRuntimeApi<Block, AccountId, Balance, BlockNumber, Hash>,
+	//
 	C::Api: BlockBuilder<Block>,
 	P: TransactionPool + 'static,
 {
@@ -46,6 +52,9 @@ where
 	let FullDeps { client, pool, deny_unsafe } = deps;
 
 	module.merge(System::new(client.clone(), pool.clone(), deny_unsafe).into_rpc())?;
+	//INFO: Contracts
+	module.merge(Contracts::new(client.clone()).into_rpc())?;
+	//
 	module.merge(TransactionPayment::new(client).into_rpc())?;
 
 	// Extend this RPC with a custom API by using the following syntax.
